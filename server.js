@@ -15,9 +15,8 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 /* Load https certificates */
 
-app.get('/config', (req, res, next) => {
+app.get('/config', (req, res) => {
   res.json({server_url: env.backend_url});
-  next();
 });
 
 app.use('/api', api);

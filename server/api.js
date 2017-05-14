@@ -9,9 +9,9 @@ router.post('/login', (req, res) => {
     const email = req.body.username;
     const password = req.body.password;
     if (email == 'admin' && password == 'admin123') {
-        res.status(200);
+        res.status(200).send({token: 'fake-token'});
     } else {
-        res.status(404);
+        res.status(404).send('error');
     }
 });
 

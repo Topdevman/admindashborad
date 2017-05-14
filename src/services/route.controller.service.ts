@@ -7,7 +7,6 @@ export class RouteController implements CanActivate, CanActivateChild {
   constructor(private authService: AuthenticationService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    console.log('Called!');
     return this.checkLogin();
   }
 
@@ -19,7 +18,6 @@ export class RouteController implements CanActivate, CanActivateChild {
     if (this.authService.isLoggedIn()) {      
       return true;
     }
-    console.log(this.router);
     this.router.navigate(['/login']);
     return false;
   }

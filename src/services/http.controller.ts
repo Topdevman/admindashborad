@@ -86,22 +86,29 @@ export class HttpController extends Http {
     }
   }
 
-  // request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-  //   let localUrl = typeof url !== "string" ? (<Request> url).url : url;
-  //   return new Observable((observer: PartialObserver<any>) => {
-  //     return this.getServerUrl(localUrl).flatMap((remoteUrl) => {
-  //         if (typeof url !== "string") {
-  //           (<Request> url).url = remoteUrl;
-  //         } else {
-  //           url = remoteUrl;
-  //         }
-  //         this.setAuthorizationHeader(url, options);
-  //         return super.request(url, options)
-  //       }
-  //     ).subscribe((res) => observer.next(res), (error: any | Response) => this.handleHttpError(error, observer),
-  //       () => observer.complete());
-  //   });
-  // }
+  request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+    let localUrl = typeof url !== "string" ? (<Request> url).url : url;
+    return new Observable((observer: PartialObserver<any>) => {
+      // return this.getServerUrl(localUrl).flatMap((remoteUrl) => {
+      //     console.log(remoteUrl);
+      //     if (typeof url !== "string") {
+      //       (<Request> url).url = remoteUrl;
+      //     } else {
+      //       url = remoteUrl;
+      //     }
+      //     this.setAuthorizationHeader(url, options);
+      //     return super.request(url, options);
+      //   }
+      // ).subscribe((res) => observer.next(res), (error: any | Response) => this.handleHttpError(error, observer),
+      //   () => observer.complete());
+      this.setAuthorizationHeader(url, options);
+      console.log(options);
+      return super.request(url, options)
+        .subscribe((res) => observer.next(res), 
+            (error: any | Response) => this.handleHttpError(error, observer), 
+            () => observer.complete());
+    });
+  }
 
 
   public authenticate(username: string, password: string): Observable < Request > {
@@ -110,6 +117,7 @@ export class HttpController extends Http {
         username: username,
         password: password
       }));
+      console.log(options);
       this.getServerUrl('/login').flatMap(url => super.request(url, options)).map((res: Response) => res.json())
         .subscribe((res: any) => {
           this.setAccessToken(res.token);
