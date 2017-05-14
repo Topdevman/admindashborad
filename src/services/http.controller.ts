@@ -39,6 +39,7 @@ export class HttpController extends Http {
           this.serverUrl = res.json().server_url;
           return `${this.serverUrl}${url}`;
         }).subscribe((url) => {
+          console.log(url);
           observer.next(url);
           observer.complete();
         }, (error: any | Response) => observer.error(error));
@@ -109,7 +110,7 @@ export class HttpController extends Http {
         username: username,
         password: password
       }));
-      this.getServerUrl("/login").flatMap(url => super.request(url, options)).map((res: Response) => res.json())
+      this.getServerUrl('/login').flatMap(url => super.request(url, options)).map((res: Response) => res.json())
         .subscribe((res: any) => {
           this.setAccessToken(res.token);
           observer.next(res);
@@ -126,7 +127,7 @@ export class HttpController extends Http {
     this.eventEmitter.removeListener(event, listener);
   }
 
-  public addAccessTokenChangeListener(listener) : void {
+  public addAccessTokenChangeListener(listener): void {
     return this.addListener(HttpController.EVENTS.access_token_changed, listener);
   }
 }

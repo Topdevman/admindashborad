@@ -1,9 +1,11 @@
-var express = require('express');
-var http = require('http');
+const express = require('express');
+const http = require('http');
 const path = require('path');
-var app = express();
-var env = require('./env.json');
+const app = express();
+const env = require('./env.json');
 const bodyParser = require('body-parser');
+
+const api = require('./server/api');
 
 
 app.use(bodyParser.json());
@@ -17,6 +19,8 @@ app.get('/config', (req, res, next) => {
   res.json({server_url: env.backend_url});
   next();
 });
+
+app.use('/api', api);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));

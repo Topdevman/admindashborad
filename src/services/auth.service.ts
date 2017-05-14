@@ -25,7 +25,7 @@ export class AuthenticationService {
         this.localStorage.remove(AuthenticationService.ACCESS_TOKEN_KEY);
       this.setLoggedIn(!!event.newValue, event.errorText);
     });
-  };
+  }
 
   public login(username: string, password: string): void {
     this.progress = true;
